@@ -1,13 +1,15 @@
+Vue.use(Toasted)
+
 var app = new Vue({
   el: '#app',
   data: {
-    msg: '',
     svcs: []
   },
   methods:{
     get() {
       axios({ method: "GET", "url": "/api/deployments" }).then(result => {
         this.svcs = result.data;
+        document.querySelector('table#svcs').classList.remove('d-none');
       }, error => {
         console.error(error);
       });
@@ -17,17 +19,14 @@ var app = new Vue({
         method: "PUT",
         url: `/api/deployments/${ns}/${name}/${state}`
       }).then(result => {
-        this.msg = `${name} (${ns}): going ${state}`;
+        this.$toasted.show(`${name} (${ns}): going ${state}`, {duration: 5000})
         this.get();
-        window.setTimeout(() => {
-          this.msg = ''
-        }, 5000);
       }, error => {
         console.error(error);
       });
     }
   },
   beforeMount(){
-    this.get()
+    this.get();
   }
 })
