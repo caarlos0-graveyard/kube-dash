@@ -10,40 +10,35 @@
 <body>
   <div id="app" class="container">
     <h1 class="pt-4 pb-4">Kube Dash</h1>
-    <div class="alert alert-primary" role="alert" v-if="msg">
-      <h4 class="alert-heading">Working...</h4>
-      <p>{{msg}}</p>
-    </div>
-    <div class="table table-hover table-bordered">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">name</th>
-            <th scope="col">namespace</th>
-            <th scope="col">state</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="svc in svcs">
-            <td>{{svc.name}}</td>
-            <td>{{svc.ns}}</td>
-            <td>
-              <strong>{{svc.pod_count}}</strong> pods running
-              <button
-                v-on:click="change((svc.pod_count === 0 ? 'up' : 'down'), svc.ns, svc.name)"
-                v-bind:class="{'btn-outline-warning': svc.pod_count > 0, 'btn-outline-success': svc.pod_count === 0}"
-                type="button"
-                class="btn btn-sm">
-                  turn {{svc.pod_count === 0 ? 'on' : 'off'}}
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table id="svcs" class="table table-hover table-bordered d-none">
+      <thead>
+        <tr>
+          <th scope="col">name</th>
+          <th scope="col">namespace</th>
+          <th scope="col">state</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="svc in svcs">
+          <td>{{svc.name}}</td>
+          <td>{{svc.ns}}</td>
+          <td>
+            <strong>{{svc.pod_count}}</strong> pods running
+            <button
+              v-on:click="change((svc.pod_count === 0 ? 'up' : 'down'), svc.ns, svc.name)"
+              v-bind:class="{'btn-outline-warning': svc.pod_count > 0, 'btn-outline-success': svc.pod_count === 0}"
+              type="button"
+              class="btn btn-sm">
+                turn {{svc.pod_count === 0 ? 'on' : 'off'}}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <script src="//unpkg.com/vue/dist/vue.min.js"></script>
   <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="//unpkg.com/vue-toasted"></script>
   <script src="/index.js"></script>
 </body>
 </html>
