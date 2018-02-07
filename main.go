@@ -18,8 +18,6 @@ import (
 )
 
 var (
-	zeroReplicas int32
-
 	kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 	listen     = flag.String("listen", ":6789", "listen address")
 )
@@ -29,8 +27,9 @@ func init() {
 }
 
 type Deployment struct {
-	Name     string `json:"name"`
-	PodCount int    `json:"pod_count"`
+	Name      string `json:"name"`
+	Namespace string `json:"ns"`
+	PodCount  int    `json:"pod_count"`
 }
 
 func main() {
@@ -116,8 +115,9 @@ func listDeployments(clientset *kubernetes.Clientset) ([]Deployment, error) {
 			continue
 		}
 		result = append(result, Deployment{
-			Name:     deploy.GetName(),
-			PodCount: int(*deploy.Spec.Replicas),
+			Name:      deploy.GetName(),
+			Namespace: deploy.GetNamespace(),
+			PodCount:  int(*deploy.Spec.Replicas),
 		})
 	}
 	return result, err
