@@ -1,0 +1,26 @@
+project_name: kube-dash
+release:
+  github:
+    owner: caarlos0
+    name: kube-dash
+builds:
+- goos:
+  - linux
+  goarch:
+  - amd64
+  binary: kube-dash
+  env:
+  - CGO_ENABLED=0
+archive:
+  format: tar.gz
+  name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+  files:
+  - LICENSE*
+  - README*
+  - deployment.yaml
+dockers:
+  - image: caarlos0/kube-dash
+    tag_templates:
+    - '{{ .Tag }}'
+    - 'v{{ .Major }}.{{ .Minor }}'
+    - 'latest'
