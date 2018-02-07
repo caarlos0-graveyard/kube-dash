@@ -2,11 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Kube Dash</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-  <h1>Kube Dash</h1>
+  <div id="app" class="container">
+    <h1 class="pt-4 pb-4">Kube Dash</h1>
+    <div class="alert alert-primary" role="alert" v-if="msg">
+      <h4 class="alert-heading">Working...</h4>
+      <p>{{msg}}</p>
+    </div>
+    <div class="table table-hover table-bordered">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">name</th>
+            <th scope="col">namespace</th>
+            <th scope="col">state</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="svc in svcs">
+            <td>{{svc.name}}</td>
+            <td>{{svc.ns}}</td>
+            <td>
+              <strong>{{svc.pod_count}}</strong> pods running
+              <button
+                v-on:click="change((svc.pod_count === 0 ? 'up' : 'down'), svc.ns, svc.name)"
+                v-bind:class="{'btn-outline-warning': svc.pod_count > 0, 'btn-outline-success': svc.pod_count === 0}"
+                type="button"
+                class="btn btn-sm">
+                  turn {{svc.pod_count === 0 ? 'on' : 'off'}}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="//unpkg.com/vue/dist/vue.min.js"></script>
+  <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/index.js"></script>
 </body>
 </html>
