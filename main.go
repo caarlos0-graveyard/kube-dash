@@ -26,6 +26,7 @@ func init() {
 	log.SetPrefix("kube-dash: ")
 }
 
+// Deployment json representation
 type Deployment struct {
 	Name      string `json:"name"`
 	Namespace string `json:"ns"`

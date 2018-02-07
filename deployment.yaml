@@ -30,3 +30,20 @@ spec:
           limits:
             cpu: "0.1"
             memory: "20Mi"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kube-dash
+  name: kube-dash
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 6789
+  selector:
+    app: kube-dash
+  type: NodePort
