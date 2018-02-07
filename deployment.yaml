@@ -39,6 +39,7 @@ metadata:
   labels:
     app: kube-dash
   name: kube-dash
+  namespace: kube-system
 spec:
   ports:
   - port: 80
