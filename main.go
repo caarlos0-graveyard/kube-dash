@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gobuffalo/packr"
 	"github.com/gorilla/mux"
 
 	apiv1 "k8s.io/api/core/v1"
@@ -47,6 +48,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	box := packr.NewBox("./static")
+
 	r := mux.NewRouter()
 	r.HandleFunc("/api/deployments", func(w http.ResponseWriter, r *http.Request) {
 		result, err := listDeployments(clientset)
@@ -81,6 +84,7 @@ func main() {
 		}
 		w.WriteHeader(http.StatusAccepted)
 	}).Methods(http.MethodPut)
+	r.Handle("/", http.FileServer(box))
 	log.Println("started server at", *listen)
 	if err := http.ListenAndServe(*listen, r); err != nil {
 		log.Fatalln("failed to start http server:", err)

@@ -11,6 +11,8 @@ builds:
   binary: kube-dash
   env:
   - CGO_ENABLED=0
+  hooks:
+    pre: packr
 archive:
   format: tar.gz
   name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
