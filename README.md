@@ -7,8 +7,7 @@ Dashboard for sandbox environments
 The idea is to give the ability to start up services in a sandbox clusters
 without giving them a lot of permissions (or any, for that mather).
 
-For now, only the HTTP API is ready, but the idea is to have a cli tool and
-a web dashboard.
+![screenshot ](https://github.com/caarlos0/kube-dash/raw/master/screenshot.png)
 
 ## API
 
