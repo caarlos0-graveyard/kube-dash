@@ -49,9 +49,10 @@ func main() {
 	}
 
 	box := packr.NewBox("./static")
+	log.Println("files:", box.List())
 
 	r := mux.NewRouter()
-	r.HandleFunc("/api/deployments", func(w http.ResponseWriter, r *http.Request) {
+	r.Methods(http.MethodGet).Path("/api/deployments").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		result, err := listDeployments(clientset)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -67,24 +68,25 @@ func main() {
 			return
 		}
 		w.Header().Set("Content-Type", "application/json")
-	}).Methods(http.MethodGet)
-	r.HandleFunc("/api/deployments/{ns}/{name}/up", func(w http.ResponseWriter, r *http.Request) {
+	})
+	r.Methods(http.MethodPut).Path("/api/deployments/{ns}/{name}/up").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		if err := scale(clientset, vars["name"], vars["ns"], 1); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusAccepted)
-	}).Methods(http.MethodPut)
-	r.HandleFunc("/api/deployments/{ns}/{name}/down", func(w http.ResponseWriter, r *http.Request) {
+	})
+	r.Methods(http.MethodPut).Path("/api/deployments/{ns}/{name}/down").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		if err := scale(clientset, vars["name"], vars["ns"], 0); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.WriteHeader(http.StatusAccepted)
-	}).Methods(http.MethodPut)
-	r.Handle("/", http.FileServer(box))
+	})
+	r.PathPrefix("/").Handler(http.FileServer(box))
+
 	log.Println("started server at", *listen)
 	if err := http.ListenAndServe(*listen, r); err != nil {
 		log.Fatalln("failed to start http server:", err)
