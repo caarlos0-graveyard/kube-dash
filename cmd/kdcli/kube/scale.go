@@ -6,7 +6,7 @@ import (
 
 	"github.com/apex/log"
 	"github.com/apex/log/handlers/cli"
-	"github.com/caarlos0/kube-dash/kdcli/config"
+	"github.com/caarlos0/kube-dash/cmd/kdcli/config"
 )
 
 func init() {
