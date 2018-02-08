@@ -6,7 +6,7 @@ import (
 
 	"github.com/apex/log"
 	lcli "github.com/apex/log/handlers/cli"
-	"github.com/caarlos0/kube-dash/kdcli/kube"
+	"github.com/caarlos0/kube-dash/cmd/kdcli/kube"
 	"github.com/urfave/cli"
 )
 
