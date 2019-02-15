@@ -30,8 +30,8 @@ archive:
   - README*
   - deployment.yaml
 dockers:
-  - image: caarlos0/kube-dash
-    tag_templates:
-    - '{{ .Tag }}'
-    - 'v{{ .Major }}.{{ .Minor }}'
-    - 'latest'
+  - binaries: ['kube-dash']
+    image_templates:
+    - 'caarlos0/kube-dash:{{ .Tag }}'
+    - 'caarlos0/kube-dash:v{{ .Major }}.{{ .Minor }}'
+    - 'caarlos0/kube-dash:latest'
