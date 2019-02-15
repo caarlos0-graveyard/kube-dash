@@ -23,7 +23,8 @@ Just run:
 kubectl create -f https://raw.githubusercontent.com/caarlos0/kube-dash/master/deployment.yaml
 ```
 
-It will create a deployment and a service in the `kube-system` namespace.
+It will create a deployment, a service and the cluster role bindings for
+kube-dash in the `kube-system` namespace.
 
 You will probably also need an ingress, here is an example:
 
