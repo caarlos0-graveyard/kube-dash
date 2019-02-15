@@ -22,7 +22,7 @@ var app = new Vue({
         this.$toasted.show(`${name} (${ns}): going ${state}`, {duration: 5000})
         this.get();
       }, error => {
-        console.error(error);
+        this.$toasted.show(`${name} (${ns}): failed to change number of replicas`, {duration: 5000})
       });
     }
   },
